@@ -1,0 +1,16 @@
+FROM rattermeyer/ubuntu-jdk:1.0
+maintainer richard.attermeyer@gmail.com
+
+ENV PROJECT_VERSION %PROJECT_VERSION%
+ENV PROJECT_NAME %PROJECT_NAME%
+ 
+RUN mkdir /opt/${PROJECT_NAME}
+ADD ${PROJECT_NAME}-${PROJECT_VERSION}.jar /opt/${PROJECT_NAME}/
+
+EXPOSE 8080
+
+ENV JDBC_USERNAME sonar
+ENV JDBC_PASSWORD sonar
+ENV JDBC_URL jdbc:h2:tcp://localhost:9092/sonar
+
+ENTRYPOINT java -jar /opt/${PROJECT_NAME}/${PROJECT_NAME}-${PROJECT_VERSION}.jar
